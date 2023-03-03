@@ -55,13 +55,14 @@ export const getUser = createAsyncThunk("auth/getUser", async (email) => {
   return email;
 });
 
+// auth Slice
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     // redux email state empty for signout
     signout: (state) => {
-      state.user.email = "";
+      state.user = {};
     },
     // subscribed user
     subscribedUser: (state, action) => {
