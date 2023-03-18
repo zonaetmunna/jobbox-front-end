@@ -15,6 +15,7 @@ const Signup = () => {
 
   const dispatch = useDispatch();
   const { isError, error } = useSelector((state) => state.auth);
+  console.log(isError, error);
 
   useEffect(() => {
     if (
@@ -40,7 +41,7 @@ const Signup = () => {
     if (isError) {
       toast.error(error);
     }
-  }, []);
+  }, [isError, error]);
 
   return (
     <div className="flex h-screen items-center pt-14">

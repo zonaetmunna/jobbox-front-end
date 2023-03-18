@@ -10,7 +10,7 @@ import auth from "../../firebase/firebase.config";
 
 const initialState = {
   user: { email: "", role: "" },
-  isLoading: true,
+  isLoading: false,
   isError: false,
   error: "",
 };
@@ -153,4 +153,4 @@ export const authSlice = createSlice({
 });
 
 export const { signout, subscribedUser, toggleLoading } = authSlice.actions;
-export default createSlice.reducers;
+export default authSlice.reducer;
