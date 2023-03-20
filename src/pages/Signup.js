@@ -3,10 +3,16 @@ import loginImage from "../assets/login.svg";
 import { useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signupUser } from "../features/auth/authSlice";
+import { googleLoginUser, signupUser } from "../features/auth/authSlice";
 import { toast } from "react-hot-toast";
 
 const Signup = () => {
+  const {
+    user: { email },
+    isLoading,
+    isError,
+    error,
+  } = useSelector((state) => state.auth);
   const { handleSubmit, register, reset, control } = useForm();
   const password = useWatch({ control, name: "password" });
   const confirmPassword = useWatch({ control, name: "confirmPassword" });
@@ -14,9 +20,8 @@ const Signup = () => {
   const [disabled, setDisabled] = useState(true);
 
   const dispatch = useDispatch();
-  const { isError, error } = useSelector((state) => state.auth);
-  console.log(isError, error);
 
+  // password match
   useEffect(() => {
     if (
       password !== undefined &&
@@ -31,12 +36,26 @@ const Signup = () => {
     }
   }, [password, confirmPassword]);
 
+  // handle submit
   const onSubmit = (data) => {
     console.log(data);
     dispatch(signupUser({ email: data.email, password: data.password }));
     reset();
   };
 
+  // google signup
+  const handleGoogleLogin = () => {
+    dispatch(googleLoginUser());
+  };
+
+  // redirect
+  useEffect(() => {
+    if (!isLoading && email) {
+      navigate("/");
+    }
+  }, []);
+
+  // error
   useEffect(() => {
     if (isError) {
       toast.error(error);
@@ -94,6 +113,7 @@ const Signup = () => {
                 >
                   Sign up
                 </button>
+                {isError && <span>{error}</span>}
               </div>
               <div>
                 <p>
@@ -105,6 +125,16 @@ const Signup = () => {
                     Login
                   </span>
                 </p>
+              </div>
+
+              <div className="relative !mt-8">
+                <button
+                  type="submit"
+                  className="font-bold text-white py-3 rounded-full bg-primary w-full"
+                  onClick={handleGoogleLogin}
+                >
+                  Sign in with Google
+                </button>
               </div>
             </div>
           </form>

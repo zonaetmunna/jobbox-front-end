@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { signout } from "../../features/auth/authSlice";
+import { logOut } from "../../features/auth/authSlice";
+import auth from "../../firebase/firebase.config";
 
 const Navbar = () => {
   const { pathname } = useLocation();
@@ -14,8 +15,8 @@ const Navbar = () => {
 
   // handle singOut
   const handleSignOut = () => {
-    signOut().then(() => {
-      dispatch(signout());
+    signOut(auth).then(() => {
+      dispatch(logOut());
     });
   };
 

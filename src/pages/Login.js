@@ -18,22 +18,26 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
+  // handle login form submit
   const onSubmit = ({ email, password }) => {
     console.log({ email, password });
     dispatch(loginUser({ email, password }));
     reset();
   };
 
+  // handle google signIn
   const handleGoogleLogin = () => {
     dispatch(googleLoginUser());
   };
 
+  // redirect
   useEffect(() => {
     if (!isLoading && email) {
       navigate("/");
     }
   }, []);
 
+  // error
   useEffect(() => {
     if (isError) {
       toast.error(error);
@@ -73,6 +77,7 @@ const Login = () => {
                 >
                   Login
                 </button>
+                {isError && <span>{error}</span>}
               </div>
               <div>
                 <p>

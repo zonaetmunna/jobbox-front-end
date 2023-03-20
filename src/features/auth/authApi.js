@@ -1,4 +1,4 @@
-import { apiSlice } from "../api/apiSlice";
+import apiSlice from "../api/apiSlice";
 import { getUser } from "./authSlice";
 
 const authApi = apiSlice.injectEndpoints({
@@ -13,7 +13,9 @@ const authApi = apiSlice.injectEndpoints({
         try {
           const res = await queryFulfilled;
           dispatch(getUser(data.email));
-        } catch (error) {}
+        } catch (error) {
+          // nothing
+        }
       },
     }),
   }),

@@ -3,13 +3,20 @@ import { useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";
 import { useRegisterMutation } from "../../features/auth/authApi";
+import { useSelector } from "react-redux";
 
 const EmployerRegistration = () => {
+  const {
+    user: { email },
+  } = useSelector((state) => state.auth);
   const [countries, setCountries] = useState([]);
 
-  const { handleSubmit, register, control } = useForm();
+  const { handleSubmit, register, control, reset } = useForm({
+    defaultValues: { email },
+  });
   const term = useWatch({ control, name: "term" });
   const navigate = useNavigate();
+  const [postUser, { isError, isLoading }] = useRegisterMutation();
 
   const businessCategory = [
     "Automotive",
@@ -40,11 +47,10 @@ const EmployerRegistration = () => {
       .then((data) => setCountries(data));
   }, []);
 
-  const [postUser, { isError, isLoading }] = useRegisterMutation();
-
   const onSubmit = (data) => {
     console.log(data);
     postUser({ ...data, role: "employer" });
+    reset();
   };
 
   return (
