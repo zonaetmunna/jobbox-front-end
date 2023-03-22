@@ -1,12 +1,18 @@
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FiTrash } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import { usePostJObMutation } from "../../features/job/jobApi";
 
 const AddJob = () => {
   const [postJOb, { isLoading, isError }] = usePostJObMutation();
+  const {
+    user: { role, companyName },
+  } = useSelector((state) => state.auth);
 
-  const { handleSubmit, register, control, reset } = useForm();
+  const { handleSubmit, register, control, reset } = useForm({
+    defaultValues: { companyName },
+  });
   const {
     fields: resFields,
     append: resAppend,

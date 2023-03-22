@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 const Sidebar = () => {
   const {
     user: { role },
-  } = useSelector((state) => state.user);
+  } = useSelector((state) => state.auth);
 
   const employerRoutes = [
     {
@@ -36,9 +36,9 @@ const Sidebar = () => {
             <li>
               <Link
                 className="hover:bg-primary hover:text-white bg-primary/10 transition-all w-full block py-2 px-3 rounded-full"
-                to="add-job"
+                to={path}
               >
-                Add Job
+                {name}
               </Link>
             </li>
           ))}
@@ -47,9 +47,9 @@ const Sidebar = () => {
             <li>
               <Link
                 className="hover:bg-primary hover:text-white bg-primary/10 transition-all w-full block py-2 px-3 rounded-full"
-                to="add-job"
+                to={path}
               >
-                Add Job
+                {name}
               </Link>
             </li>
           ))}

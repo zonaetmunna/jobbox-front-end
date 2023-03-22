@@ -9,11 +9,11 @@ const EmployerRegistration = () => {
   const {
     user: { email },
   } = useSelector((state) => state.auth);
-  const [countries, setCountries] = useState([]);
-
   const { handleSubmit, register, control, reset } = useForm({
     defaultValues: { email },
   });
+  const [countries, setCountries] = useState([]);
+
   const term = useWatch({ control, name: "term" });
   const navigate = useNavigate();
   const [postUser, { isError, isLoading }] = useRegisterMutation();

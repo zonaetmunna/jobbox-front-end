@@ -1,9 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const JobCard = ({ datas }) => {
+const JobCard = ({ job }) => {
+  console.log(job);
   const navigate = useNavigate();
-  const { _id, position, companyName, location, employmentType } = datas || {};
+  const { _id, position, companyName, location, employmentType } = job || {};
 
   return (
     <div

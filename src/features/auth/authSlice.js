@@ -61,7 +61,7 @@ export const authSlice = createSlice({
   reducers: {
     // redux email state empty for signout
     logOut: (state) => {
-      state.user.email = "";
+      state.user = { email: "", role: "" };
     },
     // subscribed user
     subscribedUser: (state, action) => {

@@ -20,7 +20,7 @@ const jobApi = apiSlice.injectEndpoints({
     }),
     question: builder.mutation({
       query: (data) => ({
-        url: "/apply",
+        url: "/query",
         method: "PATCH",
         body: data,
       }),
@@ -36,7 +36,7 @@ const jobApi = apiSlice.injectEndpoints({
     }),
     getJob: builder.query({
       query: () => ({
-        url: "/job",
+        url: "/jobs",
       }),
       providesTags: ["jobs"],
     }),

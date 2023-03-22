@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import meeting from "../assets/meeting.jpg";
 import { BsArrowRightShort, BsArrowReturnRight } from "react-icons/bs";
 import { useSelector } from "react-redux";
@@ -14,15 +13,11 @@ import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
 const JobDetails = () => {
-  const [reply, setReply] = useState("");
-  const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
   const { id } = useParams();
-  const { register, handleSubmit, reset } = useForm();
   const { data, isLoading, isError } = useGetJobByIdQuery(id, {
     pollingInterval: 10000,
   });
-
+  const { register, handleSubmit, reset } = useForm();
   const {
     companyName,
     position,
@@ -38,11 +33,16 @@ const JobDetails = () => {
     queries,
     _id,
   } = data?.data || {};
+  const { user } = useSelector((state) => state.auth);
+  console.log(user);
+  const [reply, setReply] = useState("");
+  const navigate = useNavigate();
 
   const [applyJOb] = useApplyJobMutation();
   const [sendQustion] = useQuestionMutation();
   const [sendReply] = useReplyMutation();
 
+  // handle apply job
   const handleApplyJob = () => {
     if (user.role === "employer") {
       toast.error("you need a candidate account to apply");
@@ -62,6 +62,7 @@ const JobDetails = () => {
     applyJOb(data);
   };
 
+  // handle question
   const handleQuestion = (data) => {
     const qusData = {
       ...data,
@@ -74,6 +75,7 @@ const JobDetails = () => {
     reset();
   };
 
+  // handle reply
   const handleReply = (id) => {
     const data = {
       reply,
@@ -92,9 +94,11 @@ const JobDetails = () => {
         <div className="space-y-5">
           <div className="flex justify-between items-center mt-5">
             <h1 className="text-xl font-semibold text-primary">{position}</h1>
-            <button className="btn" onClick={handleApplyJob}>
-              Apply
-            </button>
+            {user.role === "candidate" && (
+              <button className="btn" onClick={handleApplyJob}>
+                Apply
+              </button>
+            )}
           </div>
           <div>
             <h1 className="text-primary text-lg font-medium mb-3">Overview</h1>
@@ -103,7 +107,7 @@ const JobDetails = () => {
           <div>
             <h1 className="text-primary text-lg font-medium mb-3">Skills</h1>
             <ul>
-              {skills.map((skill) => (
+              {skills?.map((skill) => (
                 <li className="flex items-center">
                   <BsArrowRightShort /> <span>{skill}</span>
                 </li>
@@ -115,7 +119,7 @@ const JobDetails = () => {
               Requirements
             </h1>
             <ul>
-              {requirements.map((skill) => (
+              {requirements?.map((skill) => (
                 <li className="flex items-center">
                   <BsArrowRightShort /> <span>{skill}</span>
                 </li>
@@ -127,7 +131,7 @@ const JobDetails = () => {
               Responsibilities
             </h1>
             <ul>
-              {responsibilities.map((skill) => (
+              {responsibilities?.map((skill) => (
                 <li className="flex items-center">
                   <BsArrowRightShort /> <span>{skill}</span>
                 </li>
@@ -142,7 +146,7 @@ const JobDetails = () => {
               General Q&A
             </h1>
             <div className="text-primary my-2">
-              {queries.map(({ question, email, reply, id }) => (
+              {queries?.map(({ question, email, reply, id }) => (
                 <div>
                   <small>{email}</small>
                   <p className="text-lg font-medium">{question}</p>
@@ -162,7 +166,7 @@ const JobDetails = () => {
                       />
                       <button
                         className="shrink-0 h-14 w-14 bg-primary/10 border border-primary hover:bg-primary rounded-full transition-all  grid place-items-center text-primary hover:text-white"
-                        type="button"
+                        type="submit"
                         onClick={() => handleReply(id)}
                       >
                         <BsArrowRightShort size={30} />
@@ -183,7 +187,7 @@ const JobDetails = () => {
                   />
                   <button
                     className="shrink-0 h-14 w-14 bg-primary/10 border border-primary hover:bg-primary rounded-full transition-all  grid place-items-center text-primary hover:text-white"
-                    type="button"
+                    type="submit"
                   >
                     <BsArrowRightShort size={30} />
                   </button>
